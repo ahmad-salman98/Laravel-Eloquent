@@ -1,7 +1,9 @@
 @extends('master')
 
-@section('addForm')
+@section('title','Add Book')
 
+
+@section('addForm')
 <form class="offset-md-4 col-md-4 pt-5 mt-5" action="addBook" method="post">
     @csrf
     <!-- Name input -->
@@ -14,7 +16,14 @@
 
     <div class="form-outline mb-4 ">
         <label class="form-label" for="form4Example1">Author</label>
-        <input type="text" name="book_author" id="form4Example1" class="form-control" />
+        <select class="w-100" name="book_author" id="form4Example1">
+            @foreach($authors as $author)
+            <option value=" {{$author->id}}">
+                <p> {{$author->name}}</p>
+            </option>
+            @endforeach
+        </select>
+
         @error('book_author')
         <span class="text-danger">{{$message}}</span> @enderror
     </div>
@@ -22,7 +31,7 @@
     <!-- Email input -->
     <div class="form-outline mb-4">
         <label class="form-label" for="form4Example2">Image</label>
-        <input type="text" name="book_image" id="form4Example2" class="form-control " />
+        <input type="file" name="book_image" id="form4Example2" class="form-control " />
         @error('book_image')
         <span class="text-danger">{{$message}}</span>
         @enderror
@@ -41,5 +50,7 @@
 </form>
 
 @endsection
+
+
 
 </html>

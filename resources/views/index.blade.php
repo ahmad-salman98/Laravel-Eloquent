@@ -1,32 +1,31 @@
 @extends('master')
-
+@section('title','Home')
 @section('styleBook')
 <style>
-    .card {
-        background-color: rgb(242, 221, 168);
-        border: 1px black solid;
-        border-radius: 2rem;
-        justify-content: center;
-        align-items: center;
+    .card img {
 
+        width: 100%;
+        height: 20rem;
     }
 
-    .card img {
-        border-radius: 1rem;
-        height: 30rem;
-        width: 22rem;
-        margin-top: 2rem;
+    .description {
+        height: 5rem;
+        overflow-y: scroll;
+    }
+
+    .description::hover {
+        height: fit-content;
     }
 </style>
 @endsection
 
 
-@section('links')
-<a href="{{route('add')}}">Add new book</a>
-@endsection
-
 
 </html>
+
+@section('updatedMsg')
+<p>{{ session('updateMsg') }}</p>
+@endsection
 
 @section('books')
 @php
@@ -48,56 +47,36 @@ $this->image = $image;
 
 
 
-// $books = array();
-// $book1 = new book('since', 'a book of since', 'newton',
-// 'https://media.wiley.com/product_data/coverImage300/55/11195906/1119590655.jpg');
-// $book2 = new book('math', 'a book of math', 'taher',
-// 'https://media.wiley.com/product_data/coverImage300/55/11195906/1119590655.jpg');
-// $book3 = new book('technology', 'a book of technology', 'elon musk',
-// 'https://media.wiley.com/product_data/coverImage300/55/11195906/1119590655.jpg');
-// $book4 = new book('history', 'a book of history', 'khaled',
-// 'https://media.wiley.com/product_data/coverImage300/55/11195906/1119590655.jpg');
-// $book5 = new book('arabic', 'a book of arabic', 'bin khaldoon',
-// 'https://media.wiley.com/product_data/coverImage300/55/11195906/1119590655.jpg');
-// $book6 = new book('english', 'a book of english', 'Josh',
-// 'https://media.wiley.com/product_data/coverImage300/55/11195906/1119590655.jpg');
-// $book7 = new book('art', 'a book of art', 'leonardo',
-// 'https://media.wiley.com/product_data/coverImage300/55/11195906/1119590655.jpg');
-
-// array_push($books, $book1, $book2, $book3, $book4, $book5, $book6, $book7);
 
 @endphp
+<div class="container">
 
-<div class="row ">
+    <div class="row ">
 
-    <?php
-    foreach ($all_books as $book) { ?>
+        @foreach ($all_books as $book)
 
-    <div class="col-md-3 offset-md-1 my-3 d-flex flex-column card">
-        <div>
-            <img src=" @php echo $book->book_image; @endphp">
+        <div class="card col-md-3 me-4 mb-5" style="width:18rem">
+            <a class=" mb-auto" href="/show/{{$book->id}}">
+                <img src="{{ asset('images/' . $book->book_image) }}">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title"> {{$book->book_title}}</h5>
+                <p class="card-title">
+                    <a style="color:black; text-decoration:none;"
+                        href="/author/{{$book->book_author}}">{{$book->author->name}}</a>
+                </p>
+                <hr>
+                <p class="card-text description">{{$book->book_description}}</p>
+                <a href="update/{{$book->id}}" class="btn btn-success">Update</a>
+                <a href="/delete/{{$book->id}}" class="btn btn-danger">Delete</a>
+            </div>
         </div>
-
-        <div>
-            <h3>
-                Name: @php echo $book->book_title; @endphp
-            </h3>
-        </div>
-        <div>
-            <h3>
-                Description: @php echo $book->book_description; @endphp
-            </h3>
-        </div>
-        <div>
-            <h3>
-                Author: @php echo $book->book_author; @endphp
-            </h3>
-        </div>
-
+        @endforeach
     </div>
-    @php
+</div>
 
-    }
-    @endphp
-    @endsection
+
+
+
+@endsection
 </div>
