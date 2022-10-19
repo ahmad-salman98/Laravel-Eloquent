@@ -22,31 +22,31 @@ Route::get('/', [booksController::class, 'index']);
 
 Route::get('/books', [booksController::class, 'index']);
 
-Route::get('/add', [booksController::class, 'add'])->name('add');
+Route::get('/add', [booksController::class, 'add'])->name('add')->middleware('auth');
 
 Route::get('/show/{id}', [booksController::class, 'show'])->name('show');
 
-Route::post('/addBook', [booksController::class, 'store']);
+Route::post('/addBook', [booksController::class, 'store'])->middleware('auth');
 
-Route::get('/update/{id}', [booksController::class, 'edit']);
+Route::get('/update/{id}', [booksController::class, 'edit'])->middleware('auth');
 
-Route::post('/updateBook/{id}', [booksController::class, 'update']);
+Route::post('/updateBook/{id}', [booksController::class, 'update'])->middleware('auth');
 
-Route::get('/delete/{id}', [booksController::class, 'destroy']);
+Route::get('/delete/{id}', [booksController::class, 'destroy'])->middleware('auth');
 
-Route::get('/forceDelete/{id}', [booksController::class, 'forceDelete']);
+Route::get('/forceDelete/{id}', [booksController::class, 'forceDelete'])->middleware('auth');
 
-Route::get('/restore/{id}', [booksController::class, 'restore']);
+Route::get('/restore/{id}', [booksController::class, 'restore'])->middleware('auth');
 
-Route::get('/restoreAll', [booksController::class, 'restoreAll']);
+Route::get('/restoreAll', [booksController::class, 'restoreAll'])->middleware('auth');
 
-Route::get('/trash', [booksController::class, 'trash']);
+Route::get('/trash', [booksController::class, 'trash'])->middleware('auth');
 
-Route::get('/authorForm', [booksController::class, 'authorForm']);
+Route::get('/authorForm', [booksController::class, 'authorForm'])->middleware('auth');
 
 Route::get('/author/{id}', [booksController::class, 'author']);
 
-Route::get('/addAuthor', [booksController::class, 'addAuthor']);
+Route::get('/addAuthor', [booksController::class, 'addAuthor'])->middleware('auth');
 
 Route::post('/searchResults', [booksController::class, 'searchResults']);
 
@@ -60,6 +60,12 @@ Route::get('/profile', function () {
 
 // ------------------------ User Settings --------------------------------
 
-Route::get('/register', [userController::class, 'create']);
+Route::get('/register', [userController::class, 'create'])->middleware('guest');
 
-Route::post('/storeUser', [userController::class, 'store']);
+Route::get('/loginForm', [userController::class, 'loginForm'])->name('login')->middleware('guest');
+
+Route::post('/login', [userController::class, 'authenticate'])->middleware('guest');
+
+Route::post('/storeUser', [userController::class, 'store'])->middleware('guest');
+
+Route::get('/logout', [userController::class, 'logout'])->middleware('auth');

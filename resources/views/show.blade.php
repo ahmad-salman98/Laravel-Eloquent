@@ -15,9 +15,9 @@
 
         <div class=" offset-5 col-md-4">
 
-            <img src="{{ asset('images/' . $book->book_image) }}" alt="">
+            <img width="300px" src="{{ asset('images/' . $book->book_image) }}" alt="">
             <p>Book Name : {{$book->book_title}}</p>
-            <p> Author: {{$book->book_author}}</p>
+            <p> Author: {{$book->author->name}}</p>
             <p>Description: {{$book->book_description}}</p>
             <a href="/">Back</a>
         </div>

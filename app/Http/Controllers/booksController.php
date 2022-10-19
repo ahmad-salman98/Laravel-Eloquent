@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\author;
 use App\Models\book;
+use App\Models\author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class booksController extends Controller
 {
@@ -26,6 +27,11 @@ class booksController extends Controller
 
     public function add()
     {
+        // if (!Gate::allows('isAdmin')) {
+        //     return abort(403, 'UnOthorized Action');
+        // }
+        // or
+        Gate::authorize('isAdmin');
         $authors = author::all();
 
         return view('add', ['authors' => $authors]);
@@ -52,6 +58,8 @@ class booksController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('isAdmin');
+
         $request->validate([
             'book_title' => 'required',
             'book_author' => 'required',
@@ -97,6 +105,8 @@ class booksController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('isAdmin');
+
         $book = book::findorfail($id);
         $authors = author::all();
         return view('update', ['book' => $book, 'authors' => $authors]);
@@ -111,6 +121,10 @@ class booksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Gate::allows('isAdmin')) {
+            return abort(403, 'UnOthorized Action');
+        }
+
         $request->validate([
             'book_title' => 'required',
             'book_author' => 'required',
@@ -137,6 +151,8 @@ class booksController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('isAdmin');
+
         $book = book::findorfail($id);
         $book->delete();
         return redirect('books')->with('deletemsg', 'Book was successfully deleted');
@@ -145,12 +161,18 @@ class booksController extends Controller
 
     public function forceDelete($id)
     {
+        if (!Gate::allows('isAdmin')) {
+            return abort(403, 'UnOthorized Action');
+        }
+
         book::withTrashed()->findorfail($id)->forceDelete();
         return redirect('books')->with('deletemsg', 'Book was successfully deleted');
     }
 
     public function restore($id)
     {
+        Gate::authorize('isAdmin');
+
         book::withTrashed()->findorfail($id)->restore();
         return redirect('books')->with('restoremsg', 'Book was successfully restored');
     }
@@ -158,6 +180,8 @@ class booksController extends Controller
 
     public function restoreAll()
     {
+        Gate::authorize('isAdmin');
+
         book::onlyTrashed()->restore();
         return redirect('books')->with('restoreAllMsg', 'Books where successfully restored');
     }
@@ -166,6 +190,8 @@ class booksController extends Controller
 
     public function trash()
     {
+        Gate::authorize('isAdmin');
+
         $trash = Book::onlyTrashed()->get();
         return view('Trash', ['trash' => $trash]);
     }
@@ -180,6 +206,8 @@ class booksController extends Controller
 
     public function addAuthor(Request $request)
     {
+        Gate::authorize('isAdmin');
+
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -193,6 +221,8 @@ class booksController extends Controller
 
     public function authorForm()
     {
+        Gate::authorize('isAdmin');
+
         return view('authorForm');
     }
 

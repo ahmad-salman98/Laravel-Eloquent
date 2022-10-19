@@ -67,8 +67,11 @@ $this->image = $image;
                 </p>
                 <hr>
                 <p class="card-text description">{{$book->book_description}}</p>
+                @can('isAdmin')
+
                 <a href="update/{{$book->id}}" class="btn btn-success">Update</a>
                 <a href="/delete/{{$book->id}}" class="btn btn-danger">Delete</a>
+                @endcan
             </div>
         </div>
         @endforeach

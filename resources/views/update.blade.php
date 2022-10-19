@@ -34,8 +34,8 @@
         </div>
         <div>
             <label class="form-label" for="form4Example2">Image</label>
-            <input type="file" name="book_image" id="form4Example2" class="form-control form-control-sm"
-                value=" <?php echo $book->book_image ?>" />
+            <input  type="file" name="book_image" id="form4Example2"
+                class="form-control form-control-sm" />
             @error('book_image')
             <span class="text-danger">{{$message}}</span>
             @enderror

@@ -33,11 +33,13 @@
                         <p class="fw-normal mb-1">{{$book->book_title}}</p>
                     </td>
                     <td>{{$book->book_description}}</td>
+                    @can('isAdmin')
                     <td>
                         <button type="button" class="btn btn-link btn-sm btn-rounded">
                             <a class="text-dark" href="/update/{{$book->id}}">Edit</a>
                         </button>
                     </td>
+                    @endcan
                 </tr>
 
                 @endforeach

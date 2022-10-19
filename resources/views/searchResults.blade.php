@@ -21,8 +21,10 @@
                 </p>
                 <hr>
                 <p class="card-text description">{{$book->book_description}}</p>
+                @can('isAdmin')
                 <a href="/delete/{{$book->id}}" class="btn btn-danger">Delete</a>
                 <a href="update/{{$book->id}}" class="btn btn-success">Update</a>
+                @endcan
             </div>
         </div>
         @endforeach

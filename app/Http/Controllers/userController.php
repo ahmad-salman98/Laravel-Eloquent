@@ -27,7 +27,7 @@ class userController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([
@@ -43,6 +43,11 @@ class userController extends Controller
     public function create()
     {
         return view('register');
+    }
+
+    public function loginForm()
+    {
+        return view('login');
     }
 
     public function logout(Request $request)
